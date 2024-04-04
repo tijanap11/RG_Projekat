@@ -1,2 +1,2 @@
- RG_Projekat
+# RG_Projekat
 "Computer Graphics" course project in OpenGL
