@@ -60,8 +60,8 @@ struct ProgramState {
     bool ImGuiEnabled = false;
     Camera camera;
     bool CameraMouseMovementUpdateEnabled = true;
-    glm::vec3 backpackPosition = glm::vec3(0.0f);
-    float backpackScale = 1.0f;
+    glm::vec3 modelPosition = glm::vec3(-100.0f, -20.0f, -15.0f);
+    float modelScale = 1.0f;
     PointLight pointLight;
     ProgramState()
             : camera(glm::vec3(0.0f, 0.0f, 3.0f)) {}
@@ -243,18 +243,20 @@ int main() {
 
     // load models
     // -----------
-    Model ourModel("resources/objects/backpack/backpack.obj");
-    ourModel.SetShaderTextureNamePrefix("material.");
+    //Model ourModel("resources/objects/backpack/backpack.obj");
+    Model boatModel("resources/objects/boat2/SM_Ship01A_02_OBJ.obj");
+    //ourModel.SetShaderTextureNamePrefix("material.");
+    boatModel.SetShaderTextureNamePrefix("material.");
 
     PointLight& pointLight = programState->pointLight;
-    pointLight.position = glm::vec3(4.0f, 4.0, 0.0);
-    pointLight.ambient = glm::vec3(0.1, 0.1, 0.1);
-    pointLight.diffuse = glm::vec3(0.6, 0.6, 0.6);
+    pointLight.position = glm::vec3(4.0f, 4.0, 4.0);
+    pointLight.ambient = glm::vec3(1.0, 1.0, 1.0);
+    pointLight.diffuse = glm::vec3(0.8, 0.8, 0.8);
     pointLight.specular = glm::vec3(1.0, 1.0, 1.0);
 
     pointLight.constant = 1.0f;
-    pointLight.linear = 0.09f;
-    pointLight.quadratic = 0.032f;
+    pointLight.linear = 0.02f;
+    pointLight.quadratic = 0.02f;
 
 
 
@@ -282,7 +284,8 @@ int main() {
 
         // don't forget to enable shader before setting uniforms
         ourShader.use();
-        pointLight.position = glm::vec3(4.0 * cos(currentFrame), 4.0f, 4.0 * sin(currentFrame));
+//        pointLight.position = glm::vec3(cos(0.2*currentFrame)*50, 0.0f, 4.0 * sin(0.2*currentFrame)*50);
+        pointLight.position = glm::vec3(4.0f, 0.0f, 0.0f);
         ourShader.setVec3("pointLight.position", pointLight.position);
         ourShader.setVec3("pointLight.ambient", pointLight.ambient);
         ourShader.setVec3("pointLight.diffuse", pointLight.diffuse);
@@ -303,10 +306,21 @@ int main() {
         // render the loaded model
         glm::mat4 model = glm::mat4(1.0f);
         model = glm::translate(model,
-                               programState->backpackPosition); // translate it down so it's at the center of the scene
-        model = glm::scale(model, glm::vec3(programState->backpackScale));    // it's a bit too big for our scene, so scale it down
+                               programState->modelPosition); // translate it down so it's at the center of the scene
+        model = glm::scale(model, glm::vec3(1.0f));    // it's a bit too big for our scene, so scale it down
         ourShader.setMat4("model", model);
-        ourModel.Draw(ourShader);
+        //ourModel.Draw(ourShader);
+
+        // boat
+        model = glm::mat4(1.0f);
+        model = glm::translate(model,
+                               glm::vec3(-20.0f, -20.0f, -2.0f));
+        model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        model = glm::translate(model, glm::vec3(3.0f * sin(0.2f * currentFrame) * 2.0f, 0.0f, 0.0f));
+
+        model = glm::scale(model, glm::vec3(0.3f));
+        ourShader.setMat4("model", model);
+        boatModel.Draw(ourShader);
 
         // draw skybox
         glDepthFunc(GL_LEQUAL);  // change depth function so depth test passes when values are equal to depth buffer's content
@@ -418,9 +432,9 @@ void DrawImGui(ProgramState *programState) {
         ImGui::Begin("Hello window");
         ImGui::Text("Hello text");
         ImGui::SliderFloat("Float slider", &f, 0.0, 1.0);
-        ImGui::ColorEdit3("Background color", (float *) &programState->clearColor);
-        ImGui::DragFloat3("Backpack position", (float*)&programState->backpackPosition);
-        ImGui::DragFloat("Backpack scale", &programState->backpackScale, 0.05, 0.1, 4.0);
+        ImGui::ColorEdit3("Model color", (float *) &programState->clearColor);
+        ImGui::DragFloat3("Model position", (float*)&programState->modelPosition);
+        ImGui::DragFloat("Model scale", &programState->modelScale, 0.05, 0.1, 4.0);
 
         ImGui::DragFloat("pointLight.constant", &programState->pointLight.constant, 0.05, 0.0, 1.0);
         ImGui::DragFloat("pointLight.linear", &programState->pointLight.linear, 0.05, 0.0, 1.0);
