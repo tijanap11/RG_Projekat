@@ -267,15 +267,15 @@ int main() {
             };
     unsigned int cubemapTexture = loadCubemap(faces);
 
-    unsigned int transparentTexture = loadTexture(FileSystem::getPath("resources/textures/cloud.png").c_str());
+    unsigned int transparentTexture = loadTexture(FileSystem::getPath("resources/textures/comet.png").c_str());
 
     // transparent location
     // --------------------
     vector<glm::vec3> clouds
     {
-            glm::vec3(0.0f, 1.0f, -1.0f),
-            glm::vec3(0.0f, 1.0f, -2.0f),
-            glm::vec3(0.0f, 1.0f, -3.0f)
+            glm::vec3(0.0f, 1.0f, -7.0f),
+            glm::vec3(2.0f, 1.5f, -4.0f),
+            glm::vec3(1.0f, 1.0f, -6.0f)
     };
 
     blendingShader.use();
@@ -369,8 +369,7 @@ int main() {
         boatModel.Draw(ourShader);
 
         // textures
-
-        // clouds
+        // comets
         blendingShader.use();
         blendingShader.setMat4("projection", projection);
         blendingShader.setMat4("view", view);
