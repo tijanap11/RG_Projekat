@@ -293,6 +293,7 @@ int main() {
     //ourModel.SetShaderTextureNamePrefix("material.");
     boatModel.SetShaderTextureNamePrefix("material.");
 
+    // pointlight position
     float angleInRadians = glm::radians(45.0f);
     float x = cos(angleInRadians);
     float z = sin(angleInRadians);
@@ -300,7 +301,7 @@ int main() {
     PointLight& pointLight = programState->pointLight;
     pointLight.position = glm::vec3(x, 0.0f, z);
     pointLight.ambient = glm::vec3(6.0, 6.0, 6.0);
-    pointLight.diffuse = glm::vec3(3.0, 3.0, 3.0);
+    pointLight.diffuse = glm::vec3(4.0, 4.0, 4.0);
     pointLight.specular = glm::vec3(4.0, 4.0, 4.0);
 
     pointLight.constant = 1.0f;
@@ -346,7 +347,7 @@ int main() {
         ourShader.setVec3("viewPosition", programState->camera.Position);
         ourShader.setFloat("material.shininess", 32.0f);
 
-        ourShader.setVec3("dirLight.direction", glm::vec3(0.0f, 20.0f, 0.0f));
+        ourShader.setVec3("dirLight.direction", glm::vec3(3.0f, 0.0f, -25.0f));
         ourShader.setVec3("dirLight.ambient", glm::vec3(0.05f));
         ourShader.setVec3("dirLight.diffuse", glm::vec3(0.05f));
         ourShader.setVec3("dirLight.specular", glm::vec3(0.05f));
@@ -370,7 +371,7 @@ int main() {
         ourShader.use();
         model = glm::mat4(1.0f);
         model = glm::translate(model,
-                               glm::vec3(3.0f, -20.0f, -20.0f));
+                               glm::vec3(3.0f, -18.0f, -28.0f));
         model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         model = glm::translate(model, glm::vec3(3.0f * sin(0.2f * currentFrame) * 2.0f, 0.0f, 0.0f));
 
@@ -443,7 +444,7 @@ int main() {
 // ---------------------------------------------------------------------------------------------------------
 void processInput(GLFWwindow *window) {
     if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS)
-        programState->camera.Position = glm::vec3(0.0f, 0.0f, 0.0f);
+        programState->camera.Position = glm::vec3(0.0f, -1.0f, 0.0f);
 
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
