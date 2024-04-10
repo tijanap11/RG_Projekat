@@ -271,7 +271,7 @@ int main() {
 
     // transparent location
     // --------------------
-    vector<glm::vec3> clouds
+    vector<glm::vec3> comets
     {
             glm::vec3(0.0f, 1.0f, -7.0f),
             glm::vec3(2.0f, 1.5f, -4.0f),
@@ -293,14 +293,18 @@ int main() {
     //ourModel.SetShaderTextureNamePrefix("material.");
     boatModel.SetShaderTextureNamePrefix("material.");
 
+    float angleInRadians = glm::radians(45.0f);
+    float x = cos(angleInRadians);
+    float z = sin(angleInRadians);
+
     PointLight& pointLight = programState->pointLight;
-    pointLight.position = glm::vec3(4.0f, 4.0, 4.0);
-    pointLight.ambient = glm::vec3(1.0, 1.0, 1.0);
-    pointLight.diffuse = glm::vec3(0.8, 0.8, 0.8);
-    pointLight.specular = glm::vec3(1.0, 1.0, 1.0);
+    pointLight.position = glm::vec3(x, 0.0f, z);
+    pointLight.ambient = glm::vec3(6.0, 6.0, 6.0);
+    pointLight.diffuse = glm::vec3(3.0, 3.0, 3.0);
+    pointLight.specular = glm::vec3(4.0, 4.0, 4.0);
 
     pointLight.constant = 1.0f;
-    pointLight.linear = 0.02f;
+    pointLight.linear = 0.05f;
     pointLight.quadratic = 0.02f;
 
 
@@ -342,6 +346,11 @@ int main() {
         ourShader.setVec3("viewPosition", programState->camera.Position);
         ourShader.setFloat("material.shininess", 32.0f);
 
+        ourShader.setVec3("dirLight.direction", glm::vec3(0.0f, 20.0f, 0.0f));
+        ourShader.setVec3("dirLight.ambient", glm::vec3(0.05f));
+        ourShader.setVec3("dirLight.diffuse", glm::vec3(0.05f));
+        ourShader.setVec3("dirLight.specular", glm::vec3(0.05f));
+
         // view/projection transformation
         glm::mat4 projection = glm::perspective(glm::radians(programState->camera.Zoom),
                                                 (float) SCR_WIDTH / (float) SCR_HEIGHT, 0.1f, 100.0f);
@@ -358,6 +367,7 @@ int main() {
         //ourModel.Draw(ourShader);
 
         // boat
+        ourShader.use();
         model = glm::mat4(1.0f);
         model = glm::translate(model,
                                glm::vec3(3.0f, -20.0f, -20.0f));
@@ -375,12 +385,12 @@ int main() {
         blendingShader.setMat4("view", view);
         glBindVertexArray(transparentVAO);
         glBindTexture(GL_TEXTURE_2D, transparentTexture);
-        for (unsigned int i = 0; i < clouds.size(); i++)
+        for (unsigned int i = 0; i < comets.size(); i++)
         {
             model = glm::mat4(1.0f);
             model = glm::scale(model, glm::vec3(5.0f));
             model = glm::translate(model,glm::vec3(0.0f, 0.0f, sin(0.1f*currentFrame)*1.0f));
-            model = glm::translate(model, clouds[i]);
+            model = glm::translate(model, comets[i]);
             blendingShader.setMat4("model", model);
             glDrawArrays(GL_TRIANGLES, 0, 6);
         }
