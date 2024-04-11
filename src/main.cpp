@@ -294,19 +294,19 @@ int main() {
     boatModel.SetShaderTextureNamePrefix("material.");
 
     // pointlight position
-    float angleInRadians = glm::radians(45.0f);
+    /*float angleInRadians = glm::radians(45.0f);
     float x = cos(angleInRadians);
-    float z = sin(angleInRadians);
+    float z = sin(angleInRadians);*/
 
     PointLight& pointLight = programState->pointLight;
-    pointLight.position = glm::vec3(x, 0.0f, z);
-    pointLight.ambient = glm::vec3(6.0, 6.0, 6.0);
-    pointLight.diffuse = glm::vec3(4.0, 4.0, 4.0);
-    pointLight.specular = glm::vec3(4.0, 4.0, 4.0);
+    pointLight.position = glm::vec3(48.0, 15.0f, 11.0);
+    pointLight.ambient = glm::vec3(0.9, 0.9, 0.9);
+    pointLight.diffuse = glm::vec3(0.9, 0.9, 0.9);
+    pointLight.specular = glm::vec3(7.0, 7.0, 7.0);
 
     pointLight.constant = 1.0f;
-    pointLight.linear = 0.05f;
-    pointLight.quadratic = 0.02f;
+    pointLight.linear = 0.005f;
+    pointLight.quadratic = 0.002f;
 
 
 
@@ -372,7 +372,7 @@ int main() {
         model = glm::mat4(1.0f);
         model = glm::translate(model,
                                glm::vec3(3.0f, -18.0f, -28.0f));
-        model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        //model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         model = glm::translate(model, glm::vec3(3.0f * sin(0.2f * currentFrame) * 2.0f, 0.0f, 0.0f));
 
         model = glm::scale(model, glm::vec3(0.3f));
