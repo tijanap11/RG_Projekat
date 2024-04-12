@@ -288,18 +288,11 @@ int main() {
 
     // load models
     // -----------
-    //Model ourModel("resources/objects/backpack/backpack.obj");
     Model boatModel("resources/objects/boat/SM_Ship01A_02_OBJ.obj");
-    //ourModel.SetShaderTextureNamePrefix("material.");
     boatModel.SetShaderTextureNamePrefix("material.");
 
-    // pointlight position
-    /*float angleInRadians = glm::radians(45.0f);
-    float x = cos(angleInRadians);
-    float z = sin(angleInRadians);*/
-
     PointLight& pointLight = programState->pointLight;
-    pointLight.position = glm::vec3(48.0, 15.0f, 11.0);
+    pointLight.position = glm::vec3(48.0, 15.0, 11.0);
     pointLight.ambient = glm::vec3(0.9, 0.9, 0.9);
     pointLight.diffuse = glm::vec3(0.9, 0.9, 0.9);
     pointLight.specular = glm::vec3(7.0, 7.0, 7.0);
@@ -360,16 +353,9 @@ int main() {
         ourShader.setMat4("view", view);
 
         // render the loaded model
-        glm::mat4 model = glm::mat4(1.0f);
-        model = glm::translate(model,
-                               programState->modelPosition); // translate it down so it's at the center of the scene
-        model = glm::scale(model, glm::vec3(1.0f));    // it's a bit too big for our scene, so scale it down
-        ourShader.setMat4("model", model);
-        //ourModel.Draw(ourShader);
-
         // boat
         ourShader.use();
-        model = glm::mat4(1.0f);
+        glm::mat4 model = glm::mat4(1.0f);
         model = glm::translate(model,
                                glm::vec3(3.0f, -18.0f, -28.0f));
         //model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
